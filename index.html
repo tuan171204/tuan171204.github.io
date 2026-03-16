@@ -349,6 +349,96 @@
       font-size: .95rem;
       line-height: 1.7;
     }
+
+    /* ══ MOBILE FIXES ══════════════════════════════════════ */
+
+    /* Mobile nav link */
+    .mobile-nav-link {
+      display: block;
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      letter-spacing: -.01em;
+      padding: 11px 4px;
+      border-bottom: 1px solid var(--gray-100);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .mobile-nav-link:last-of-type { border-bottom: none; }
+    .mobile-nav-link:hover { color: var(--blue-600); }
+
+    /* Hamburger → X animation */
+    .menu-open .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-open .hamburger-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-open .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* ── Hero mobile ── */
+    @media (max-width: 767px) {
+      /* Section vertical padding tightened on mobile */
+      section[id="about"],
+      section[id="mindset"],
+      section[id="skills"],
+      section[id="projects"],
+      section[id="arch"],
+      section[id="github"],
+      section[id="contact"] {
+        padding-top: 60px !important;
+        padding-bottom: 60px !important;
+      }
+
+      /* Hero section */
+      section[id="hero"] {
+        padding-top: 96px !important;
+        padding-bottom: 56px !important;
+      }
+
+      /* Hero headline — tame clamp on tiny screens */
+      .hero-headline {
+        font-size: clamp(2.1rem, 9vw, 3.2rem) !important;
+        letter-spacing: -.025em !important;
+      }
+
+      /* Hero sub — smaller on mobile */
+      .hero-sub {
+        font-size: .95rem !important;
+        max-width: 100% !important;
+      }
+
+      /* Stat numbers */
+      .stat-num {
+        font-size: 2rem !important;
+      }
+
+      /* Project card header stripes — tighten padding */
+      .project-stripe-blue,
+      .project-stripe-indigo {
+        padding: 24px 20px !important;
+      }
+
+      /* Project card body — tighten padding */
+      .project-card > div:not(.project-stripe-blue):not(.project-stripe-indigo) {
+        padding: 24px 20px !important;
+      }
+
+      /* Architecture diagram — prevent 3-col grid from squishing text on tiny screens */
+      .arch-diagram-grid-3 {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* GitHub strip — tighten padding */
+      .github-strip {
+        padding: 32px 24px !important;
+      }
+
+      /* Section title responsive scale */
+      .section-title {
+        font-size: clamp(1.7rem, 7vw, 2.4rem) !important;
+      }
+    }
+
+    /* ── Prevent overflow-x globally ── */
+    body { overflow-x: hidden; }
+    .max-w-5xl { max-width: 100%; }
   </style>
 </head>
 
@@ -360,6 +450,8 @@
       <a href="#hero" class="mono text-lg font-medium" style="color:var(--slate); letter-spacing:-.01em;">
         Tuan Thai
       </a>
+
+      <!-- Desktop nav links (unchanged) -->
       <div class="hidden md:flex items-center gap-6">
         <a href="#about"    class="nav-link">About</a>
         <a href="#mindset"  class="nav-link">Mindset</a>
@@ -368,20 +460,48 @@
         <a href="#arch"     class="nav-link">Architecture</a>
         <a href="#contact"  class="nav-link">Contact</a>
       </div>
-      <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue" style="padding:8px 18px; font-size:.82rem;">
+
+      <!-- Desktop CTA (hidden on mobile) -->
+      <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue hidden md:inline-flex" style="padding:8px 18px; font-size:.82rem;">
         Get in touch
       </a>
+
+      <!-- Mobile hamburger button -->
+      <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg gap-1.5"
+              style="background:transparent; border:none; cursor:pointer; padding:4px;"
+              aria-label="Open menu" aria-expanded="false">
+        <span class="hamburger-bar block w-5 h-0.5 rounded-full transition-all duration-300" style="background:var(--slate);"></span>
+        <span class="hamburger-bar block w-5 h-0.5 rounded-full transition-all duration-300" style="background:var(--slate);"></span>
+        <span class="hamburger-bar block w-5 h-0.5 rounded-full transition-all duration-300" style="background:var(--slate);"></span>
+      </button>
+    </div>
+
+    <!-- Mobile slide-down menu -->
+    <div id="mobile-menu"
+         style="max-height:0; overflow:hidden; transition:max-height .35s cubic-bezier(.16,1,.3,1), opacity .3s ease; opacity:0; border-top:0px solid var(--gray-200);"
+         class="md:hidden">
+      <div class="px-6 pb-5 pt-3 flex flex-col gap-1">
+        <a href="#about"    class="mobile-nav-link" onclick="closeMobileMenu()">About</a>
+        <a href="#mindset"  class="mobile-nav-link" onclick="closeMobileMenu()">Mindset</a>
+        <a href="#skills"   class="mobile-nav-link" onclick="closeMobileMenu()">Skills</a>
+        <a href="#projects" class="mobile-nav-link" onclick="closeMobileMenu()">Projects</a>
+        <a href="#arch"     class="mobile-nav-link" onclick="closeMobileMenu()">Architecture</a>
+        <a href="#contact"  class="mobile-nav-link" onclick="closeMobileMenu()">Contact</a>
+        <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue mt-3 justify-center" style="font-size:.88rem; padding:12px 20px; text-decoration:none;">
+          Get in touch
+        </a>
+      </div>
     </div>
   </nav>
 
   <!-- ══════════════════════ HERO ══════════════════════ -->
   <section id="hero" style="padding-top: 120px; padding-bottom: 100px; background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
       <div class="max-w-3xl">
 
-        <p class="hero-eyebrow hero-anim-1">Backend Engineer · Ho Chi Minh City, Vietnam</p>
+        <p class="hero-eyebrow hero-anim-1 text-xs sm:text-sm">Backend Engineer · Ho Chi Minh City, Vietnam</p>
 
-        <h1 class="hero-headline mt-5 mb-7 hero-anim-2">
+        <h1 class="hero-headline mt-4 sm:mt-5 mb-5 sm:mb-7 hero-anim-2">
           Building systems<br/>
           that are <strong>reliable,<br/>
           scalable,</strong> and fast.
@@ -393,20 +513,21 @@
           Currently studying Software Engineering at Sai Gon University.
         </p>
 
-        <div class="flex flex-wrap gap-3 mt-10 hero-anim-4">
-          <a href="#projects" class="btn-blue">View Projects</a>
-          <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost">
+        <!-- Buttons: stack on very small screens, row on sm+ -->
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 mt-8 sm:mt-10 hero-anim-4">
+          <a href="#projects" class="btn-blue justify-center sm:justify-start">View Projects</a>
+          <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost justify-center sm:justify-start">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
             GitHub
           </a>
-          <a href="mailto:tuanthai17122004@gmail.com" class="btn-ghost">
+          <a href="mailto:tuanthai17122004@gmail.com" class="btn-ghost justify-center sm:justify-start">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
             Contact Me
           </a>
         </div>
 
-        <!-- Stats row -->
-        <div class="flex flex-wrap gap-10 mt-16 hero-anim-5 pt-10" style="border-top: 1px solid var(--gray-200);">
+        <!-- Stats row: 2×2 grid on mobile, flex row on sm+ -->
+        <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-6 sm:gap-10 mt-12 sm:mt-16 hero-anim-5 pt-8 sm:pt-10" style="border-top: 1px solid var(--gray-200);">
           <div>
             <div class="stat-num">2+</div>
             <div class="text-sm mt-1" style="color:var(--gray-400); font-weight:400; letter-spacing:-.01em;">shipped projects</div>
@@ -431,7 +552,7 @@
 
   <!-- ══════════════════════ ABOUT ══════════════════════ -->
   <section id="about" style="padding: 100px 0;">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="grid lg:grid-cols-2 gap-16 items-start">
 
@@ -513,7 +634,7 @@
 
   <!-- ══════════════════════ MINDSET ══════════════════════ -->
   <section id="mindset" style="padding: 100px 0; background: var(--gray-50);">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="fade-up mb-14">
         <span class="eyebrow">Engineering Mindset</span>
@@ -588,7 +709,7 @@
 
   <!-- ══════════════════════ SKILLS ══════════════════════ -->
   <section id="skills" style="padding: 100px 0;">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="fade-up mb-14">
         <span class="eyebrow">Technical Skills</span>
@@ -678,7 +799,7 @@
 
   <!-- ══════════════════════ PROJECTS ══════════════════════ -->
   <section id="projects" style="padding: 100px 0; background: var(--gray-50);">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="fade-up mb-14">
         <span class="eyebrow">Selected Projects</span>
@@ -694,14 +815,14 @@
       <div class="project-card mb-8 fade-up">
 
         <!-- Header stripe -->
-        <div class="project-stripe-blue px-10 py-10">
+        <div class="project-stripe-blue px-5 py-7 sm:px-10 sm:py-10">
           <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div class="flex flex-wrap gap-2 mb-3">
                 <span class="chip" style="background:rgba(255,255,255,.15); color:#fff; border-color:rgba(255,255,255,.2);">Team of 2 · Lead</span>
                 <span class="chip" style="background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border-color:rgba(255,255,255,.15);">Jan 2026 – Present</span>
               </div>
-              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:1.7rem; color:#fff; letter-spacing:-.03em;">ClothingStore</h3>
+              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:clamp(1.3rem,5vw,1.7rem); color:#fff; letter-spacing:-.03em;">ClothingStore</h3>
               <p style="color:rgba(255,255,255,.65); font-size:.9rem; font-weight:300; margin-top:4px;">Full-stack E-Commerce Platform</p>
             </div>
             <a href="https://github.com/tuan171204/ClothingStore" target="_blank"
@@ -715,7 +836,7 @@
         </div>
 
         <!-- Body -->
-        <div class="px-10 py-10">
+        <div class="px-5 py-7 sm:px-10 sm:py-10">
           <div class="grid lg:grid-cols-2 gap-10">
 
             <!-- Left -->
@@ -812,14 +933,14 @@
       <div class="project-card fade-up" style="transition-delay:.15s;">
 
         <!-- Header stripe -->
-        <div class="project-stripe-indigo px-10 py-10">
+        <div class="project-stripe-indigo px-5 py-7 sm:px-10 sm:py-10">
           <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div class="flex flex-wrap gap-2 mb-3">
                 <span class="chip" style="background:rgba(255,255,255,.15); color:#fff; border-color:rgba(255,255,255,.2);">Individual Project</span>
                 <span class="chip" style="background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border-color:rgba(255,255,255,.15);">Sep – Dec 2025</span>
               </div>
-              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:1.7rem; color:#fff; letter-spacing:-.03em;">Resume Builder Web</h3>
+              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:clamp(1.3rem,5vw,1.7rem); color:#fff; letter-spacing:-.03em;">Resume Builder Web</h3>
               <p style="color:rgba(255,255,255,.65); font-size:.9rem; font-weight:300; margin-top:4px;">Distributed Services Architecture · AI-Assisted Content</p>
             </div>
             <a href="https://github.com/tuan171204/Resume-Builder-Web" target="_blank"
@@ -833,7 +954,7 @@
         </div>
 
         <!-- Body -->
-        <div class="px-10 py-10">
+        <div class="px-5 py-7 sm:px-10 sm:py-10">
           <div class="grid lg:grid-cols-2 gap-10">
 
             <div>
@@ -919,7 +1040,7 @@
 
   <!-- ══════════════════════ ARCHITECTURE ══════════════════════ -->
   <section id="arch" style="padding: 100px 0;">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="fade-up mb-14">
         <span class="eyebrow">System Architecture</span>
@@ -936,7 +1057,7 @@
 
         <!-- Diagram -->
         <div class="fade-up">
-          <div class="p-8 rounded-2xl" style="background:var(--gray-50); border:1px solid var(--gray-200);">
+          <div class="p-5 sm:p-8 rounded-2xl" style="background:var(--gray-50); border:1px solid var(--gray-200);">
 
             <!-- Client -->
             <div class="arch-node primary text-center">Client — Next.js Frontend</div>
@@ -947,8 +1068,8 @@
             <div class="arch-connector" style="color:var(--gray-300); font-size:.7rem; font-family:'DM Mono',monospace; height:auto; padding:4px 0;">JWT validation · Request routing · Business logic</div>
             <div class="arch-connector">↓</div>
 
-            <!-- Three services row -->
-            <div class="grid grid-cols-3 gap-3">
+            <!-- Three services row: single col on mobile, 3-col on sm+ -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-3">
               <div class="arch-node" style="font-size:.7rem;">
                 <div class="font-medium" style="color:var(--gray-700);">MySQL</div>
                 <div style="color:var(--gray-400); font-size:.65rem; margin-top:3px;">Primary store</div>
@@ -968,7 +1089,7 @@
             <!-- Queue -->
             <div class="arch-node" style="border-color:#d1d5db; background:#fff;">
               <span class="font-medium" style="color:var(--gray-700);">RabbitMQ</span>
-              <span style="color:var(--gray-400); font-size:.7rem; margin-left:8px;">→ Email · Inventory sync</span>
+              <span class="block sm:inline md:ml-2;" style="color:var(--gray-400); font-size:.7rem; margin-left:0;">→ Email · Inventory sync</span>
             </div>
 
             <div class="arch-connector">↓ External calls</div>
@@ -1035,14 +1156,14 @@
 
   <!-- ══════════════════════ GITHUB ══════════════════════ -->
   <section id="github" style="padding: 100px 0; background: var(--gray-50);">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
-      <div class="github-strip p-12 md:p-16 fade-up">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="github-strip p-7 sm:p-12 md:p-16 fade-up">
+        <div class="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
 
           <div>
             <span class="mono text-xs" style="color:rgba(255,255,255,.4); letter-spacing:.12em; text-transform:uppercase;">Open Source</span>
-            <h2 style="font-family:'DM Sans',sans-serif; font-weight:300; font-size:2.2rem; letter-spacing:-.03em; color:#fff; line-height:1.15; margin-top:12px;">
+            <h2 style="font-family:'DM Sans',sans-serif; font-weight:300; font-size:clamp(1.6rem,5vw,2.2rem); letter-spacing:-.03em; color:#fff; line-height:1.15; margin-top:12px;">
               All my work<br/><strong style="font-weight:600;">is on GitHub.</strong>
             </h2>
             <p class="mt-5 text-sm" style="color:rgba(255,255,255,.5); font-weight:300; line-height:1.8; max-width:380px;">
@@ -1050,7 +1171,7 @@
               I believe in shipping real work and learning in public.
               Explore the repos and see how decisions evolved over time.
             </p>
-            <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost mt-8 inline-flex"
+            <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost mt-8 inline-flex w-full sm:w-auto justify-center sm:justify-start"
                style="border-color:rgba(255,255,255,.2); color:#fff; background:rgba(255,255,255,.07);"
                onmouseover="this.style.background='rgba(255,255,255,.14)'; this.style.borderColor='rgba(255,255,255,.4)'"
                onmouseout="this.style.background='rgba(255,255,255,.07)'; this.style.borderColor='rgba(255,255,255,.2)'">
@@ -1061,7 +1182,7 @@
 
           <div class="space-y-3">
             <!-- Repo card 1 -->
-            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 22px;">
+            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 20px;">
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <p class="mono text-sm font-medium" style="color:#fff;">ClothingStore</p>
@@ -1071,7 +1192,7 @@
               </div>
             </div>
             <!-- Repo card 2 -->
-            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 22px;">
+            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 20px;">
               <div class="flex items-start justify-between gap-4">
                 <div>
                   <p class="mono text-sm font-medium" style="color:#fff;">Resume-Builder-Web</p>
@@ -1090,7 +1211,7 @@
 
   <!-- ══════════════════════ CONTACT ══════════════════════ -->
   <section id="contact" style="padding: 100px 0;">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6">
 
       <div class="fade-up mb-14">
         <span class="eyebrow">Contact</span>
@@ -1105,19 +1226,19 @@
 
       <div class="grid md:grid-cols-2 gap-8">
 
-        <div class="fade-up space-y-4">
-          <a href="mailto:tuanthai17122004@gmail.com" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
-            <div style="width:40px; height:40px; border-radius:10px; background:var(--blue-50); border:1px solid var(--blue-100); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <div class="fade-up space-y-3">
+          <a href="mailto:tuanthai17122004@gmail.com" class="flex items-center gap-4 p-5 card" style="text-decoration:none; min-height:64px;">
+            <div style="width:44px; height:44px; border-radius:10px; background:var(--blue-50); border:1px solid var(--blue-100); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
               <svg width="16" height="16" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
             </div>
-            <div>
+            <div class="min-w-0">
               <p class="text-xs mono mb-1" style="color:var(--gray-400); letter-spacing:.08em; text-transform:uppercase;">Email</p>
-              <p class="text-sm font-medium" style="color:var(--slate);">tuanthai17122004@gmail.com</p>
+              <p class="text-sm font-medium truncate" style="color:var(--slate);">tuanthai17122004@gmail.com</p>
             </div>
           </a>
 
-          <a href="tel:+840902451316" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
-            <div style="width:40px; height:40px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <a href="tel:+840902451316" class="flex items-center gap-4 p-5 card" style="text-decoration:none; min-height:64px;">
+            <div style="width:44px; height:44px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
               <svg width="16" height="16" fill="none" stroke="var(--gray-600)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             </div>
             <div>
@@ -1126,8 +1247,8 @@
             </div>
           </a>
 
-          <a href="https://github.com/tuan171204" target="_blank" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
-            <div style="width:40px; height:40px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <a href="https://github.com/tuan171204" target="_blank" class="flex items-center gap-4 p-5 card" style="text-decoration:none; min-height:64px;">
+            <div style="width:44px; height:44px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
               <svg width="16" height="16" fill="var(--gray-600)" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
             </div>
             <div>
@@ -1138,7 +1259,7 @@
         </div>
 
         <!-- CTA panel -->
-        <div class="fade-up card p-8 flex flex-col items-start justify-between" style="transition-delay:.15s; background: linear-gradient(135deg, #f0f7ff, #e8f2ff); border-color:var(--blue-100);">
+        <div class="fade-up card p-7 sm:p-8 flex flex-col items-start justify-between" style="transition-delay:.15s; background: linear-gradient(135deg, #f0f7ff, #e8f2ff); border-color:var(--blue-100);">
           <div>
             <p class="eyebrow" style="font-size:.65rem;">Open to</p>
             <p class="font-semibold mt-1 text-lg" style="color:var(--slate); letter-spacing:-.02em;">Backend Engineering Roles</p>
@@ -1149,7 +1270,7 @@
               <span class="chip chip-slate">Remote friendly</span>
             </div>
           </div>
-          <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue mt-8">
+          <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue mt-8 w-full sm:w-auto justify-center sm:justify-start">
             Send me an email
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -1161,7 +1282,7 @@
 
   <!-- ══════════════════════ FOOTER ══════════════════════ -->
   <footer style="padding: 32px 0; border-top: 1px solid var(--gray-200);">
-    <div class="max-w-5xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 flex flex-wrap items-center justify-between gap-4">
       <p class="mono text-xs" style="color:var(--gray-400);">© 2025 Tuan Thai — Backend Engineer</p>
       <p class="mono text-xs" style="color:var(--gray-400);">Ho Chi Minh City, Vietnam</p>
     </div>
@@ -1169,7 +1290,46 @@
 
   <!-- ══════════════════════ JS ══════════════════════ -->
   <script>
-    // Scroll reveal
+    // ── Mobile hamburger menu ──────────────────────────────
+    const menuBtn  = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+
+    function openMobileMenu() {
+      menuOpen = true;
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuBtn.classList.add('menu-open');
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity  = '1';
+      mobileMenu.style.borderTopWidth = '1px';
+    }
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.classList.remove('menu-open');
+      mobileMenu.style.maxHeight = '0';
+      mobileMenu.style.opacity   = '0';
+      mobileMenu.style.borderTopWidth = '0px';
+    }
+
+    menuBtn.addEventListener('click', () => {
+      menuOpen ? closeMobileMenu() : openMobileMenu();
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (menuOpen && !menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close on resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && menuOpen) closeMobileMenu();
+    });
+
+    // ── Scroll reveal ──────────────────────────────────────
     const els = document.querySelectorAll('.fade-up');
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -1178,7 +1338,7 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     els.forEach(el => io.observe(el));
 
-    // Active nav highlight on scroll
+    // ── Active nav highlight on scroll ────────────────────
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     const navIO = new IntersectionObserver(entries => {
@@ -1192,11 +1352,10 @@
     }, { threshold: 0.4 });
     sections.forEach(s => navIO.observe(s));
 
-    // Stagger mindset cards
+    // ── Stagger mindset cards ──────────────────────────────
     document.querySelectorAll('.mindset-card').forEach((el, i) => {
       el.style.transitionDelay = `${i * 70}ms`;
     });
   </script>
-
 </body>
 </html>
