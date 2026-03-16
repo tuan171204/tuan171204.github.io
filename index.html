@@ -1,125 +1,1202 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Tuan Thai</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fbfbfb; color: #1a1a1a; scroll-behavior: smooth; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tuan Thai — Backend Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --white:    #ffffff;
+      --gray-50:  #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+      --blue-50:  #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --slate:    #0f172a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--gray-700);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* ── Fade-in on scroll ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+    }
+    .fade-up.show { opacity: 1; transform: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-link {
+      font-size: .84rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      letter-spacing: -.01em;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--gray-900); }
+    .nav-link.active { color: var(--blue-600); }
+
+    /* ── Hero ── */
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+    }
+    .hero-headline {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      color: var(--slate);
+    }
+    .hero-headline strong {
+      font-weight: 600;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--gray-500);
+      max-width: 520px;
+      line-height: 1.75;
+      letter-spacing: -.01em;
+    }
+
+    /* ── Buttons ── */
+    .btn-blue {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue-600);
+      color: #fff;
+      font-size: .88rem;
+      font-weight: 500;
+      padding: 11px 22px;
+      border-radius: 10px;
+      letter-spacing: -.01em;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 1px 3px rgba(37,99,235,.3), 0 4px 12px rgba(37,99,235,.15);
+    }
+    .btn-blue:hover { background: var(--blue-700); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,.3); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      color: var(--gray-700);
+      font-size: .88rem;
+      font-weight: 500;
+      padding: 11px 22px;
+      border-radius: 10px;
+      border: 1px solid var(--gray-200);
+      letter-spacing: -.01em;
+      transition: border-color .2s, color .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .btn-ghost:hover { border-color: var(--gray-400); color: var(--gray-900); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+
+    /* ── Section labels ── */
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -.03em;
+      color: var(--slate);
+      line-height: 1.1;
+    }
+    .section-title strong { font-weight: 600; }
+
+    /* ── Divider ── */
+    .section-divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 80px 0;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .card:hover {
+      border-color: var(--gray-300);
+      box-shadow: 0 8px 32px rgba(0,0,0,.08);
+      transform: translateY(-2px);
+    }
+
+    /* ── Skill tag ── */
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: .75rem;
+      color: var(--gray-700);
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 5px 12px;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .skill-tag:hover {
+      background: var(--blue-50);
+      border-color: var(--blue-100);
+      color: var(--blue-700);
+    }
+
+    /* ── Project cards ── */
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: box-shadow .3s, transform .3s, border-color .3s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    }
+    .project-card:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,.1);
+      transform: translateY(-4px);
+      border-color: var(--gray-300);
+    }
+
+    /* ── Project header stripe ── */
+    .project-stripe-blue {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #0ea5e9 100%);
+    }
+    .project-stripe-indigo {
+      background: linear-gradient(135deg, #312e81 0%, #4f46e5 60%, #7c3aed 100%);
+    }
+
+    /* ── Chip ── */
+    .chip {
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .04em;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 500;
+    }
+    .chip-blue  { background: var(--blue-50);   color: var(--blue-700);  border: 1px solid var(--blue-100); }
+    .chip-gray  { background: var(--gray-100);  color: var(--gray-600);  border: 1px solid var(--gray-200); }
+    .chip-slate { background: #f1f5f9;          color: #475569;          border: 1px solid #e2e8f0; }
+
+    /* ── Tech badge in project ── */
+    .tech-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      color: var(--gray-600);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    /* ── Architecture diagram ── */
+    .arch-node {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-family: 'DM Mono', monospace;
+      font-size: .76rem;
+      color: var(--gray-700);
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .arch-node:hover { border-color: var(--blue-500); box-shadow: 0 4px 16px rgba(37,99,235,.12); }
+    .arch-node.primary {
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      border-color: transparent;
+      color: #fff;
+      font-weight: 500;
+    }
+    .arch-node.accent {
+      background: var(--blue-50);
+      border-color: var(--blue-100);
+      color: var(--blue-700);
+    }
+    .arch-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-300);
+      font-size: 1.1rem;
+      line-height: 1;
+      height: 24px;
+    }
+
+    /* ── Mindset card ── */
+    .mindset-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 28px;
+      transition: background .25s, border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .mindset-card:hover {
+      background: var(--white);
+      border-color: var(--gray-300);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.07);
+    }
+
+    /* ── Mono text ── */
+    .mono { font-family: 'DM Mono', monospace; }
+
+    /* ── GitHub section ── */
+    .github-strip {
+      background: var(--slate);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 99px; }
+
+    /* ── Hero entrance animation ── */
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-anim-1 { animation: heroIn .7s cubic-bezier(.16,1,.3,1) .1s both; }
+    .hero-anim-2 { animation: heroIn .7s cubic-bezier(.16,1,.3,1) .25s both; }
+    .hero-anim-3 { animation: heroIn .7s cubic-bezier(.16,1,.3,1) .4s both; }
+    .hero-anim-4 { animation: heroIn .7s cubic-bezier(.16,1,.3,1) .55s both; }
+    .hero-anim-5 { animation: heroIn .7s cubic-bezier(.16,1,.3,1) .7s both; }
+
+    /* ── Float badge ── */
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .float { animation: float 4s ease-in-out infinite; }
+
+    /* ── Stat number ── */
+    .stat-num {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 2.8rem;
+      letter-spacing: -.04em;
+      color: var(--slate);
+      line-height: 1;
+    }
+
+    /* ── Inline link ── */
+    a.inline-link {
+      color: var(--blue-600);
+      text-decoration: none;
+      border-bottom: 1px solid var(--blue-100);
+      transition: border-color .2s;
+    }
+    a.inline-link:hover { border-color: var(--blue-600); }
+
+    /* ── Quote block ── */
+    .quote-block {
+      border-left: 3px solid var(--blue-200);
+      padding-left: 20px;
+      color: var(--gray-500);
+      font-style: italic;
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+  </style>
 </head>
-<body class="antialiased">
-    <nav class="sticky top-0 z-50 glass-card border-b border-gray-100 bg-white/80 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-extrabold tracking-tighter text-blue-600">TT<span class="text-gray-900">.</span></div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
-                <a href="#about" class="hover:text-blue-600 transition">About</a>
-                <a href="#skills" class="hover:text-blue-600 transition">Skills</a>
-                <a href="#projects" class="hover:text-blue-600 transition">Projects</a>
-                <a href="#contact" class="hover:text-blue-600 transition">Contact</a>
-            </div>
-        </div>
-    </nav>
 
-    <header id="about" class="max-w-6xl mx-auto px-6 pt-24 pb-16">
-        <h1 class="text-6xl md:text-7xl font-bold mt-6 tracking-tight text-gray-900">Tuan Thai</h1>
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-700 mt-2">I'm a Backend Developer.</h2>
-        <p class="mt-8 max-w-2xl text-lg text-gray-500 leading-relaxed">
-            I am a final-year student majoring in Software Engineering at Sai Gon University. 
-            I specialize in building scalable backend systems with <b>Java Spring Boot</b> and <b>Microservices</b> architecture.
+<body>
+
+  <!-- ══════════════════════ NAV ══════════════════════ -->
+  <nav>
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="mono text-lg font-medium" style="color:var(--slate); letter-spacing:-.01em;">
+        Tuan Thai
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#about"    class="nav-link">About</a>
+        <a href="#mindset"  class="nav-link">Mindset</a>
+        <a href="#skills"   class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#arch"     class="nav-link">Architecture</a>
+        <a href="#contact"  class="nav-link">Contact</a>
+      </div>
+      <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue" style="padding:8px 18px; font-size:.82rem;">
+        Get in touch
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════ HERO ══════════════════════ -->
+  <section id="hero" style="padding-top: 120px; padding-bottom: 100px; background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="max-w-3xl">
+
+        <p class="hero-eyebrow hero-anim-1">Backend Engineer · Ho Chi Minh City, Vietnam</p>
+
+        <h1 class="hero-headline mt-5 mb-7 hero-anim-2">
+          Building systems<br/>
+          that are <strong>reliable,<br/>
+          scalable,</strong> and fast.
+        </h1>
+
+        <p class="hero-sub hero-anim-3">
+          I design backend services with a focus on clean API contracts,
+          thoughtful data modeling, and resilient asynchronous architecture.
+          Currently studying Software Engineering at Sai Gon University.
         </p>
-        <div class="mt-12 flex flex-wrap gap-4">
-            <a href="#projects" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center">
-                View My Work <span class="ml-2">↓</span>
+
+        <div class="flex flex-wrap gap-3 mt-10 hero-anim-4">
+          <a href="#projects" class="btn-blue">View Projects</a>
+          <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="mailto:tuanthai17122004@gmail.com" class="btn-ghost">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            Contact Me
+          </a>
+        </div>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-10 mt-16 hero-anim-5 pt-10" style="border-top: 1px solid var(--gray-200);">
+          <div>
+            <div class="stat-num">2+</div>
+            <div class="text-sm mt-1" style="color:var(--gray-400); font-weight:400; letter-spacing:-.01em;">shipped projects</div>
+          </div>
+          <div>
+            <div class="stat-num">3</div>
+            <div class="text-sm mt-1" style="color:var(--gray-400);">database types used</div>
+          </div>
+          <div>
+            <div class="stat-num">10+</div>
+            <div class="text-sm mt-1" style="color:var(--gray-400);">technologies</div>
+          </div>
+          <div>
+            <div class="stat-num">∞</div>
+            <div class="text-sm mt-1" style="color:var(--gray-400);">things to learn</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ ABOUT ══════════════════════ -->
+  <section id="about" style="padding: 100px 0;">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <div class="fade-up">
+          <span class="eyebrow">About</span>
+          <h2 class="section-title mt-1 mb-8">
+            Engineering is<br/><strong>curiosity applied.</strong>
+          </h2>
+
+          <div class="space-y-5" style="font-size:.95rem; line-height:1.8; color:var(--gray-500); font-weight:300;">
+            <p>
+              I'm a Software Engineering student at <span style="color:var(--gray-900); font-weight:500;">Sai Gon University</span>,
+              building toward a career in backend engineering. What drew me to backend work
+              is the structural thinking it demands — how data flows, where it lives,
+              and what breaks when you don't think ahead.
+            </p>
+            <p>
+              I enjoy designing systems more than I enjoy writing individual features.
+              The schema, the API contract, the messaging topology — these decisions
+              compound over time, and getting them right (or understanding why you got them wrong)
+              is what makes backend engineering interesting to me.
+            </p>
+            <p>
+              I've worked with payment gateways, async messaging queues, multi-database patterns,
+              search layers, and container orchestration. Each project added a new layer of
+              understanding about trade-offs in real systems.
+            </p>
+          </div>
+        </div>
+
+        <div class="fade-up space-y-5" style="transition-delay:.15s;">
+
+          <!-- Education card -->
+          <div class="card">
+            <span class="eyebrow" style="font-size:.65rem;">Education</span>
+            <p class="font-semibold mt-1" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Sai Gon University</p>
+            <p class="text-sm mt-1" style="color:var(--gray-500); font-weight:300;">
+              B.Eng — Information Technology, Software Engineering<br/>
+              Sep 2022 – Present · Ho Chi Minh City, Vietnam
+            </p>
+          </div>
+
+          <!-- Focus card -->
+          <div class="card">
+            <span class="eyebrow" style="font-size:.65rem;">Current Focus</span>
+            <ul class="mt-3 space-y-2">
+              <li class="flex items-start gap-3 text-sm" style="color:var(--gray-600); font-weight:300;">
+                <span style="color:var(--blue-500); margin-top:3px; font-size:.6rem;">●</span>
+                Backend API design and REST contract quality
+              </li>
+              <li class="flex items-start gap-3 text-sm" style="color:var(--gray-600); font-weight:300;">
+                <span style="color:var(--blue-500); margin-top:3px; font-size:.6rem;">●</span>
+                Asynchronous systems with RabbitMQ and event-driven patterns
+              </li>
+              <li class="flex items-start gap-3 text-sm" style="color:var(--gray-600); font-weight:300;">
+                <span style="color:var(--blue-500); margin-top:3px; font-size:.6rem;">●</span>
+                Database design and multi-store architectures
+              </li>
+              <li class="flex items-start gap-3 text-sm" style="color:var(--gray-600); font-weight:300;">
+                <span style="color:var(--blue-500); margin-top:3px; font-size:.6rem;">●</span>
+                Containerization with Docker Compose
+              </li>
+            </ul>
+          </div>
+
+          <!-- Language card -->
+          <div class="card">
+            <span class="eyebrow" style="font-size:.65rem;">Languages</span>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="chip chip-slate">Vietnamese — Native</span>
+              <span class="chip chip-blue">English — B1+ / B2 Target</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ MINDSET ══════════════════════ -->
+  <section id="mindset" style="padding: 100px 0; background: var(--gray-50);">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="fade-up mb-14">
+        <span class="eyebrow">Engineering Mindset</span>
+        <h2 class="section-title mt-1">
+          How I approach<br/><strong>backend systems.</strong>
+        </h2>
+        <p class="mt-5 max-w-xl" style="font-size:.95rem; color:var(--gray-400); font-weight:300; line-height:1.7;">
+          These aren't just principles I've read about — they're patterns I've had to apply
+          and occasionally get wrong in real projects.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="mindset-card fade-up">
+          <div class="text-2xl mb-4">🏗</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Clean Architecture</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            Business logic should be isolated from infrastructure. Whether the data source is MySQL or Redis
+            shouldn't change how your domain behaves.
+          </p>
+        </div>
+
+        <div class="mindset-card fade-up" style="transition-delay:.08s;">
+          <div class="text-2xl mb-4">📐</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">API Design First</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            Define the contract before writing implementation. Endpoint names, request shapes,
+            and error formats should be intentional, not accidental.
+          </p>
+        </div>
+
+        <div class="mindset-card fade-up" style="transition-delay:.16s;">
+          <div class="text-2xl mb-4">⚡</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Performance Awareness</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            Redis caching, search indexing, lazy loading — not premature optimization,
+            but knowing where the pressure points will be before they become problems.
+          </p>
+        </div>
+
+        <div class="mindset-card fade-up" style="transition-delay:.24s;">
+          <div class="text-2xl mb-4">🔀</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Async by Default</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            If it doesn't need to be synchronous, it shouldn't be. Queuing side effects
+            makes systems more resilient and the API faster without extra complexity.
+          </p>
+        </div>
+
+        <div class="mindset-card fade-up" style="transition-delay:.32s;">
+          <div class="text-2xl mb-4">🗄</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Data Modeling Matters</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            The schema is load-bearing. A well-designed model makes features easier to add
+            and queries more intuitive. I've used relational, document, and graph stores.
+          </p>
+        </div>
+
+        <div class="mindset-card fade-up" style="transition-delay:.40s;">
+          <div class="text-2xl mb-4">🔐</div>
+          <h3 class="font-semibold mb-2" style="color:var(--slate); font-size:1rem; letter-spacing:-.02em;">Security by Design</h3>
+          <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+            JWT auth, role-based access control, secure token forwarding between services.
+            Security gets designed in — not added as an afterthought.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ SKILLS ══════════════════════ -->
+  <section id="skills" style="padding: 100px 0;">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="fade-up mb-14">
+        <span class="eyebrow">Technical Skills</span>
+        <h2 class="section-title mt-1">
+          The tools<br/><strong>I work with.</strong>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Languages -->
+        <div class="card fade-up">
+          <div class="flex items-center justify-between mb-5">
+            <p class="font-semibold text-sm" style="color:var(--slate); letter-spacing:-.01em;">Languages</p>
+            <span class="chip chip-blue">Core</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">JavaScript ES6+</span>
+            <span class="skill-tag">SQL</span>
+          </div>
+          <p class="mt-5 text-sm" style="color:var(--gray-400); font-weight:300; line-height:1.7;">
+            Java is my primary language. I use it daily for backend services with Spring Boot.
+            JavaScript covers frontend work and scripting; SQL underpins all relational data access.
+          </p>
+        </div>
+
+        <!-- Frameworks -->
+        <div class="card fade-up" style="transition-delay:.1s;">
+          <div class="flex items-center justify-between mb-5">
+            <p class="font-semibold text-sm" style="color:var(--slate); letter-spacing:-.01em;">Frameworks & Libraries</p>
+            <span class="chip chip-slate">Backend · Frontend</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Spring Boot</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Next.js</span>
+            <span class="skill-tag">JUnit</span>
+          </div>
+          <p class="mt-5 text-sm" style="color:var(--gray-400); font-weight:300; line-height:1.7;">
+            Spring Boot is my backend framework of choice. React and Next.js handle the UI layer.
+            JUnit for unit testing backend services.
+          </p>
+        </div>
+
+        <!-- Databases -->
+        <div class="card fade-up" style="transition-delay:.2s;">
+          <div class="flex items-center justify-between mb-5">
+            <p class="font-semibold text-sm" style="color:var(--slate); letter-spacing:-.01em;">Databases & Caching</p>
+            <span class="chip chip-blue">Multi-store</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">MSSQL Server</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Neo4j</span>
+          </div>
+          <p class="mt-5 text-sm" style="color:var(--gray-400); font-weight:300; line-height:1.7;">
+            Experience choosing the right store for each workload: relational for transactions,
+            document for flexibility, graph for relationships, Redis for caching hot paths.
+          </p>
+        </div>
+
+        <!-- Tools -->
+        <div class="card fade-up" style="transition-delay:.3s;">
+          <div class="flex items-center justify-between mb-5">
+            <p class="font-semibold text-sm" style="color:var(--slate); letter-spacing:-.01em;">Tools, APIs & Infrastructure</p>
+            <span class="chip chip-gray">DevOps · Integration</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Git / GitHub</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">RESTful APIs</span>
+            <span class="skill-tag">Swagger</span>
+            <span class="skill-tag">Postman</span>
+            <span class="skill-tag">RabbitMQ</span>
+            <span class="skill-tag">WebSocket</span>
+            <span class="skill-tag">Cloudinary</span>
+            <span class="skill-tag">Elasticsearch</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ PROJECTS ══════════════════════ -->
+  <section id="projects" style="padding: 100px 0; background: var(--gray-50);">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="fade-up mb-14">
+        <span class="eyebrow">Selected Projects</span>
+        <h2 class="section-title mt-1">
+          What I've<br/><strong>shipped.</strong>
+        </h2>
+        <p class="mt-5 max-w-xl" style="font-size:.95rem; color:var(--gray-400); font-weight:300; line-height:1.7;">
+          Real projects with real trade-offs. Not tutorial reproductions.
+        </p>
+      </div>
+
+      <!-- ── ClothingStore ── -->
+      <div class="project-card mb-8 fade-up">
+
+        <!-- Header stripe -->
+        <div class="project-stripe-blue px-10 py-10">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="chip" style="background:rgba(255,255,255,.15); color:#fff; border-color:rgba(255,255,255,.2);">Team of 2 · Lead</span>
+                <span class="chip" style="background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border-color:rgba(255,255,255,.15);">Jan 2026 – Present</span>
+              </div>
+              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:1.7rem; color:#fff; letter-spacing:-.03em;">ClothingStore</h3>
+              <p style="color:rgba(255,255,255,.65); font-size:.9rem; font-weight:300; margin-top:4px;">Full-stack E-Commerce Platform</p>
+            </div>
+            <a href="https://github.com/tuan171204/ClothingStore" target="_blank"
+               style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); color:#fff; padding:9px 18px; border-radius:10px; font-size:.82rem; font-weight:500; transition:background .2s; text-decoration:none;"
+               onmouseover="this.style.background='rgba(255,255,255,.2)'"
+               onmouseout="this.style.background='rgba(255,255,255,.12)'">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              View Source
             </a>
-            <a href="./assets/resume.pdf" target="_blank" class="bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-all">
-                Resume
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="px-10 py-10">
+          <div class="grid lg:grid-cols-2 gap-10">
+
+            <!-- Left -->
+            <div>
+              <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">Overview</p>
+              <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+                A production-grade e-commerce platform managing product catalog, multi-variant inventory,
+                order processing, and logistics. Led a team of two, responsible for system design
+                and backend implementation.
+              </p>
+
+              <div class="mt-8">
+                <p class="mono text-xs mb-4" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">Key Engineering Decisions</p>
+                <ul class="space-y-3">
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">RabbitMQ</strong> for async email and inventory sync — keeps the HTTP response fast and the queue resilient</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">Redis caching</strong> for hot product data, reducing repeated DB reads on high-traffic pages</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">Elasticsearch</strong> for full-text search with relevance scoring beyond what SQL LIKE can offer</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">JWT + Spring Security</strong> — stateless auth with role-based access for customers and admins</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">VNPay + Webhook</strong> — idempotent payment confirmation handling to avoid double-processing</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:var(--blue-500); margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">GHN API + Webhooks</strong> — automated shipping calculation and real-time order tracking</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div>
+              <p class="mono text-xs mb-4" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">Interesting Problems</p>
+              <div class="space-y-4">
+                <div class="p-4 rounded-12" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">Product variant schema</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    Designing a flexible schema for multi-variant products (size, color, material)
+                    without denormalization that breaks querying or pricing logic.
+                  </p>
+                </div>
+                <div class="p-4 rounded-12" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">Async inventory consistency</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    Keeping stock counts consistent when payment confirmation and inventory deduction
+                    are decoupled through a message queue.
+                  </p>
+                </div>
+                <div class="p-4 rounded-12" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">Elasticsearch–MySQL sync</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    Reliably keeping the Elasticsearch index in sync with MySQL as the source of truth
+                    without expensive full re-indexes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-7">
+                <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">Stack</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tech-badge">Java</span>
+                  <span class="tech-badge">Spring Boot</span>
+                  <span class="tech-badge">Spring Security</span>
+                  <span class="tech-badge">Next.js</span>
+                  <span class="tech-badge">MySQL</span>
+                  <span class="tech-badge">RabbitMQ</span>
+                  <span class="tech-badge">Redis</span>
+                  <span class="tech-badge">Elasticsearch</span>
+                  <span class="tech-badge">VNPay</span>
+                  <span class="tech-badge">GHN API</span>
+                  <span class="tech-badge">JWT</span>
+                  <span class="tech-badge">Docker</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Resume Builder ── -->
+      <div class="project-card fade-up" style="transition-delay:.15s;">
+
+        <!-- Header stripe -->
+        <div class="project-stripe-indigo px-10 py-10">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="chip" style="background:rgba(255,255,255,.15); color:#fff; border-color:rgba(255,255,255,.2);">Individual Project</span>
+                <span class="chip" style="background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border-color:rgba(255,255,255,.15);">Sep – Dec 2025</span>
+              </div>
+              <h3 style="font-family:'DM Sans',sans-serif; font-weight:600; font-size:1.7rem; color:#fff; letter-spacing:-.03em;">Resume Builder Web</h3>
+              <p style="color:rgba(255,255,255,.65); font-size:.9rem; font-weight:300; margin-top:4px;">Distributed Services Architecture · AI-Assisted Content</p>
+            </div>
+            <a href="https://github.com/tuan171204/Resume-Builder-Web" target="_blank"
+               style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); color:#fff; padding:9px 18px; border-radius:10px; font-size:.82rem; font-weight:500; text-decoration:none; transition:background .2s;"
+               onmouseover="this.style.background='rgba(255,255,255,.2)'"
+               onmouseout="this.style.background='rgba(255,255,255,.12)'">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              View Source
             </a>
+          </div>
         </div>
-    </header>
 
-    <section id="skills" class="max-w-6xl mx-auto px-6 py-20">
-        <h3 class="text-3xl font-bold mb-12 flex items-center">Skills & Technologies <span class="ml-4 h-[2px] w-20 bg-blue-600 rounded-full"></span></h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-                <h4 class="text-xl font-bold mb-4 text-blue-600">Backend</h4>
-                <ul class="space-y-3 text-gray-500 font-medium">
-                    <li>• Java (Spring Boot)</li>
-                    <li>• C# (.NET Core)</li>
-                    <li>• Microservices Architecture</li>
-                    <li>• MySQL, MongoDB, Redis</li>
-                </ul>
-            </div>
-            <div class="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-                <h4 class="text-xl font-bold mb-4 text-indigo-600">Frontend</h4>
-                <ul class="space-y-3 text-gray-500 font-medium">
-                    <li>• React (TypeScript)</li>
-                    <li>• Next.js</li>
-                    <li>• Tailwind CSS</li>
-                    <li>• Shadcn/UI</li>
-                </ul>
-            </div>
-            <div class="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
-                <h4 class="text-xl font-bold mb-4 text-emerald-600">DevOps & Tools</h4>
-                <ul class="space-y-3 text-gray-500 font-medium">
-                    <li>• Docker & Docker Compose</li>
-                    <li>• RabbitMQ</li>
-                    <li>• Git & GitHub</li>
-                    <li>• RESTful APIs & Swagger</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        <!-- Body -->
+        <div class="px-10 py-10">
+          <div class="grid lg:grid-cols-2 gap-10">
 
-    <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
-        <h3 class="text-3xl font-bold mb-12 flex items-center">Featured Projects <span class="ml-4 h-[1px] flex-grow bg-gray-100"></span></h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div class="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col">
-                <div class="h-3 bg-blue-600"></div>
-                <div class="p-8 flex-grow">
-                    <div class="flex justify-between items-start mb-6">
-                        <h4 class="text-xl font-bold leading-tight text-gray-900">ClothingStore E-commerce</h4>
-                        <a href="https://github.com/tuan171204/ClothingStore" target="_blank" class="text-gray-400 hover:text-blue-600 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                        </a>
-                    </div>
-                    <ul class="text-sm text-gray-500 space-y-3 mb-8">
-                        <li>▹ Architected a full-stack system with <b>Spring Boot</b> and <b>Next.js</b>.</li>
-                        <li>▹ Integrated <b>VNPay</b>, <b>GHN API</b>, and <b>RabbitMQ</b> for async tasks.</li>
-                        <li>▹ Optimized search with <b>Elasticsearch</b> and caching with <b>Redis</b>.</li>
-                    </ul>
+            <div>
+              <p class="mono text-xs mb-3" style="color:#6d28d9; letter-spacing:.1em; text-transform:uppercase;">Overview</p>
+              <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+                A resume builder with independently deployable backend services, each owning its own
+                data store. The project was an exercise in the Database-per-Service pattern — applying
+                distributed system design principles from scratch as a solo developer.
+              </p>
+
+              <div class="mt-8">
+                <p class="mono text-xs mb-4" style="color:#6d28d9; letter-spacing:.1em; text-transform:uppercase;">Architecture Highlights</p>
+                <ul class="space-y-3">
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:#7c3aed; margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">API Gateway</strong> — single entry point, centralized JWT validation and request routing</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:#7c3aed; margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">MySQL</strong> for relational user/auth data, <strong style="color:var(--gray-800); font-weight:500;">MongoDB</strong> for resume documents, <strong style="color:var(--gray-800); font-weight:500;">Neo4j</strong> for graph relationships</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:#7c3aed; margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">Docker Compose</strong> — entire stack runs with a single command locally</span>
+                  </li>
+                  <li class="text-sm" style="color:var(--gray-600); font-weight:300; display:flex; gap:10px;">
+                    <span style="color:#7c3aed; margin-top:4px; flex-shrink:0;">→</span>
+                    <span><strong style="color:var(--gray-800); font-weight:500;">AI content generation</strong> — third-party model API integrated for assisting resume writing</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <p class="mono text-xs mb-4" style="color:#6d28d9; letter-spacing:.1em; text-transform:uppercase;">What I Learned</p>
+              <div class="space-y-4">
+                <div class="p-4" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">Service boundary decisions</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    The hardest part wasn't the code — it was deciding where one service ends and another begins
+                    without creating excessive cross-service calls.
+                  </p>
                 </div>
-            </div>
-            <div class="bg-white rounded-[40px] border border-gray-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col">
-                <div class="h-3 bg-emerald-500"></div>
-                <div class="p-8 flex-grow">
-                    <div class="flex justify-between items-start mb-6">
-                        <h4 class="text-xl font-bold leading-tight text-gray-900">Resume Builder (Microservices)</h4>
-                        <a href="https://github.com/tuan171204/Resume-Builder-Web" target="_blank" class="text-gray-400 hover:text-emerald-500 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                        </a>
-                    </div>
-                    <ul class="text-sm text-gray-500 space-y-3 mb-8">
-                        <li>▹ Built using <b>Microservices</b> architecture with <b>API Gateway</b>.</li>
-                        <li>▹ Implemented <b>Database-per-Service</b> (MySQL, MongoDB, Neo4j).</li>
-                        <li>▹ Integrated <b>AI Model API</b> for resume content generation.</li>
-                    </ul>
+                <div class="p-4" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">JWT relay through gateway</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    Forwarding tokens securely between services without duplicating auth logic
+                    or exposing internal service endpoints.
+                  </p>
                 </div>
-            </div>
-        </div>
-    </section>
+                <div class="p-4" style="background:var(--gray-50); border:1px solid var(--gray-200); border-radius:12px;">
+                  <p class="text-sm font-medium mb-1" style="color:var(--slate);">Database selection rationale</p>
+                  <p class="text-xs" style="color:var(--gray-500); font-weight:300; line-height:1.7;">
+                    Understanding why Neo4j for skill relationships and MongoDB for resume documents —
+                    not because it was trendy, but because the data shape justified it.
+                  </p>
+                </div>
+              </div>
 
-    <footer id="contact" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-100">
-        <h3 class="text-3xl font-bold mb-8">Get In Touch</h3>
-        <div class="flex flex-wrap gap-8 text-lg font-medium">
-            <a href="mailto:tuanthai17122004@gmail.com" class="text-gray-600 hover:text-blue-600 transition">Email</a>
-            <a href="https://github.com/tuan171204" target="_blank" class="text-gray-600 hover:text-blue-600 transition">GitHub</a>
-            <a href="#" class="text-gray-600 hover:text-blue-600 transition">LinkedIn</a>
+              <div class="mt-7">
+                <p class="mono text-xs mb-3" style="color:#6d28d9; letter-spacing:.1em; text-transform:uppercase;">Stack</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tech-badge">Spring Boot</span>
+                  <span class="tech-badge">React + TypeScript</span>
+                  <span class="tech-badge">shadcn/ui</span>
+                  <span class="tech-badge">MySQL</span>
+                  <span class="tech-badge">MongoDB</span>
+                  <span class="tech-badge">Neo4j</span>
+                  <span class="tech-badge">Docker Compose</span>
+                  <span class="tech-badge">API Gateway</span>
+                  <span class="tech-badge">JWT</span>
+                  <span class="tech-badge">AI API</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <p class="mt-12 text-gray-400 text-sm">© 2026 Tuan Thai. Built with Tailwind CSS.</p>
-    </footer>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════ ARCHITECTURE ══════════════════════ -->
+  <section id="arch" style="padding: 100px 0;">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="fade-up mb-14">
+        <span class="eyebrow">System Architecture</span>
+        <h2 class="section-title mt-1">
+          ClothingStore<br/><strong>request flow.</strong>
+        </h2>
+        <p class="mt-5 max-w-xl" style="font-size:.95rem; color:var(--gray-400); font-weight:300; line-height:1.7;">
+          A simplified view of how a typical user request moves through the system,
+          and which components handle each concern.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Diagram -->
+        <div class="fade-up">
+          <div class="p-8 rounded-2xl" style="background:var(--gray-50); border:1px solid var(--gray-200);">
+
+            <!-- Client -->
+            <div class="arch-node primary text-center">Client — Next.js Frontend</div>
+            <div class="arch-connector">↓ HTTPS</div>
+
+            <!-- API Layer -->
+            <div class="arch-node accent text-center">Spring Boot — API Layer</div>
+            <div class="arch-connector" style="color:var(--gray-300); font-size:.7rem; font-family:'DM Mono',monospace; height:auto; padding:4px 0;">JWT validation · Request routing · Business logic</div>
+            <div class="arch-connector">↓</div>
+
+            <!-- Three services row -->
+            <div class="grid grid-cols-3 gap-3">
+              <div class="arch-node" style="font-size:.7rem;">
+                <div class="font-medium" style="color:var(--gray-700);">MySQL</div>
+                <div style="color:var(--gray-400); font-size:.65rem; margin-top:3px;">Primary store</div>
+              </div>
+              <div class="arch-node" style="font-size:.7rem;">
+                <div class="font-medium" style="color:var(--gray-700);">Redis</div>
+                <div style="color:var(--gray-400); font-size:.65rem; margin-top:3px;">Cache layer</div>
+              </div>
+              <div class="arch-node" style="font-size:.7rem;">
+                <div class="font-medium" style="color:var(--gray-700);">Elasticsearch</div>
+                <div style="color:var(--gray-400); font-size:.65rem; margin-top:3px;">Search index</div>
+              </div>
+            </div>
+
+            <div class="arch-connector">↓ Side effects</div>
+
+            <!-- Queue -->
+            <div class="arch-node" style="border-color:#d1d5db; background:#fff;">
+              <span class="font-medium" style="color:var(--gray-700);">RabbitMQ</span>
+              <span style="color:var(--gray-400); font-size:.7rem; margin-left:8px;">→ Email · Inventory sync</span>
+            </div>
+
+            <div class="arch-connector">↓ External calls</div>
+
+            <!-- External APIs -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="arch-node" style="font-size:.72rem;">
+                <div class="font-medium" style="color:var(--gray-700);">VNPay</div>
+                <div style="color:var(--gray-400); font-size:.65rem; margin-top:2px;">Payment gateway</div>
+              </div>
+              <div class="arch-node" style="font-size:.72rem;">
+                <div class="font-medium" style="color:var(--gray-700);">GHN API</div>
+                <div style="color:var(--gray-400); font-size:.65rem; margin-top:2px;">Shipping & tracking</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Commentary -->
+        <div class="fade-up space-y-8" style="transition-delay:.15s;">
+
+          <div>
+            <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">On the cache layer</p>
+            <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+              Redis sits in front of MySQL for product catalog reads. The cache gets invalidated
+              on inventory changes. For a read-heavy product listing page, this meaningfully
+              reduces database pressure without adding complex cache invalidation logic.
+            </p>
+          </div>
+
+          <div>
+            <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">On the queue</p>
+            <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+              Email delivery and inventory sync don't need to happen inside the HTTP request.
+              Pushing them to RabbitMQ means the API responds faster, and if the email
+              service is temporarily down, messages wait in the queue rather than fail silently.
+            </p>
+          </div>
+
+          <div>
+            <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">On search</p>
+            <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+              SQL full-text search can work for simple cases, but once you need
+              relevance scoring, fuzzy matching, or faceted filtering by multiple product
+              attributes, Elasticsearch becomes the right tool. The tradeoff is keeping
+              the index synchronized with the MySQL source of truth.
+            </p>
+          </div>
+
+          <div>
+            <p class="mono text-xs mb-3" style="color:var(--blue-600); letter-spacing:.1em; text-transform:uppercase;">On external APIs</p>
+            <p class="text-sm" style="color:var(--gray-500); font-weight:300; line-height:1.8;">
+              Both VNPay and GHN deliver events via webhooks. Handling payment webhooks
+              required idempotency — the same event could arrive twice, so the system
+              had to recognize and safely discard duplicates.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ GITHUB ══════════════════════ -->
+  <section id="github" style="padding: 100px 0; background: var(--gray-50);">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="github-strip p-12 md:p-16 fade-up">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+
+          <div>
+            <span class="mono text-xs" style="color:rgba(255,255,255,.4); letter-spacing:.12em; text-transform:uppercase;">Open Source</span>
+            <h2 style="font-family:'DM Sans',sans-serif; font-weight:300; font-size:2.2rem; letter-spacing:-.03em; color:#fff; line-height:1.15; margin-top:12px;">
+              All my work<br/><strong style="font-weight:600;">is on GitHub.</strong>
+            </h2>
+            <p class="mt-5 text-sm" style="color:rgba(255,255,255,.5); font-weight:300; line-height:1.8; max-width:380px;">
+              Full source for both projects — commit history included.
+              I believe in shipping real work and learning in public.
+              Explore the repos and see how decisions evolved over time.
+            </p>
+            <a href="https://github.com/tuan171204" target="_blank" class="btn-ghost mt-8 inline-flex"
+               style="border-color:rgba(255,255,255,.2); color:#fff; background:rgba(255,255,255,.07);"
+               onmouseover="this.style.background='rgba(255,255,255,.14)'; this.style.borderColor='rgba(255,255,255,.4)'"
+               onmouseout="this.style.background='rgba(255,255,255,.07)'; this.style.borderColor='rgba(255,255,255,.2)'">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              github.com/tuan171204
+            </a>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Repo card 1 -->
+            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 22px;">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="mono text-sm font-medium" style="color:#fff;">ClothingStore</p>
+                  <p class="text-xs mt-1" style="color:rgba(255,255,255,.4); font-weight:300;">Full-stack e-commerce with async processing & search</p>
+                </div>
+                <span class="chip" style="background:rgba(255,255,255,.08); color:rgba(255,255,255,.6); border-color:rgba(255,255,255,.12); flex-shrink:0;">Java</span>
+              </div>
+            </div>
+            <!-- Repo card 2 -->
+            <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px 22px;">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="mono text-sm font-medium" style="color:#fff;">Resume-Builder-Web</p>
+                  <p class="text-xs mt-1" style="color:rgba(255,255,255,.4); font-weight:300;">Distributed services + multi-database + AI generation</p>
+                </div>
+                <span class="chip" style="background:rgba(255,255,255,.08); color:rgba(255,255,255,.6); border-color:rgba(255,255,255,.12); flex-shrink:0;">Java</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CONTACT ══════════════════════ -->
+  <section id="contact" style="padding: 100px 0;">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="fade-up mb-14">
+        <span class="eyebrow">Contact</span>
+        <h2 class="section-title mt-1">
+          Let's talk<br/><strong>backend engineering.</strong>
+        </h2>
+        <p class="mt-5 max-w-lg" style="font-size:.95rem; color:var(--gray-400); font-weight:300; line-height:1.7;">
+          I'm actively looking for backend engineering roles — internships, junior positions,
+          or anything where I can contribute and keep learning seriously.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="fade-up space-y-4">
+          <a href="mailto:tuanthai17122004@gmail.com" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
+            <div style="width:40px; height:40px; border-radius:10px; background:var(--blue-50); border:1px solid var(--blue-100); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            </div>
+            <div>
+              <p class="text-xs mono mb-1" style="color:var(--gray-400); letter-spacing:.08em; text-transform:uppercase;">Email</p>
+              <p class="text-sm font-medium" style="color:var(--slate);">tuanthai17122004@gmail.com</p>
+            </div>
+          </a>
+
+          <a href="tel:+840902451316" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
+            <div style="width:40px; height:40px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" fill="none" stroke="var(--gray-600)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="text-xs mono mb-1" style="color:var(--gray-400); letter-spacing:.08em; text-transform:uppercase;">Phone</p>
+              <p class="text-sm font-medium" style="color:var(--slate);">+84 090 245 1316</p>
+            </div>
+          </a>
+
+          <a href="https://github.com/tuan171204" target="_blank" class="flex items-center gap-4 p-5 card" style="text-decoration:none;">
+            <div style="width:40px; height:40px; border-radius:10px; background:var(--gray-100); border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="16" height="16" fill="var(--gray-600)" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </div>
+            <div>
+              <p class="text-xs mono mb-1" style="color:var(--gray-400); letter-spacing:.08em; text-transform:uppercase;">GitHub</p>
+              <p class="text-sm font-medium" style="color:var(--slate);">github.com/tuan171204</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- CTA panel -->
+        <div class="fade-up card p-8 flex flex-col items-start justify-between" style="transition-delay:.15s; background: linear-gradient(135deg, #f0f7ff, #e8f2ff); border-color:var(--blue-100);">
+          <div>
+            <p class="eyebrow" style="font-size:.65rem;">Open to</p>
+            <p class="font-semibold mt-1 text-lg" style="color:var(--slate); letter-spacing:-.02em;">Backend Engineering Roles</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="chip chip-blue">Internship</span>
+              <span class="chip chip-blue">Junior Engineer</span>
+              <span class="chip chip-slate">Ho Chi Minh City</span>
+              <span class="chip chip-slate">Remote friendly</span>
+            </div>
+          </div>
+          <a href="mailto:tuanthai17122004@gmail.com" class="btn-blue mt-8">
+            Send me an email
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ FOOTER ══════════════════════ -->
+  <footer style="padding: 32px 0; border-top: 1px solid var(--gray-200);">
+    <div class="max-w-5xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+      <p class="mono text-xs" style="color:var(--gray-400);">© 2025 Tuan Thai — Backend Engineer</p>
+      <p class="mono text-xs" style="color:var(--gray-400);">Ho Chi Minh City, Vietnam</p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════ JS ══════════════════════ -->
+  <script>
+    // Scroll reveal
+    const els = document.querySelectorAll('.fade-up');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => navIO.observe(s));
+
+    // Stagger mindset cards
+    document.querySelectorAll('.mindset-card').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 70}ms`;
+    });
+  </script>
+
 </body>
 </html>
